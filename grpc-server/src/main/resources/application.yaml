@@ -10,3 +10,4 @@ server:
 logging:
   level:
     io.netty: TRACE
+

@@ -1,0 +1,15 @@
+
+spring:
+  application:
+    name: grcp-server
+  cloud:
+    nacos:
+      server-addr: yxlgx.top:8848
+      #配置中心
+      config:
+        namespace: dev
+        file-extension: yaml
+        enabled: true
+      #服务发现
+      discovery:
+        namespace: dev

@@ -16,9 +16,9 @@ spring:
           use-insecure-trust-manager: true
 
       routes:
-        - id: grpc
-          uri: https://localhost:6565
+        - id: grpc-path
+          uri: lb:https://grpc-server
           predicates:
-            - Path=/**
+            - Header=custom_client_header_key, grpc-path
           filters:
             - AddResponseHeader=X-Request-header, header-value

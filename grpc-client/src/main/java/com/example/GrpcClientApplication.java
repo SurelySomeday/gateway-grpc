@@ -3,6 +3,9 @@ package com.example;
 import com.example.grpcserver.hello.HelloRequest;
 import com.example.grpcserver.hello.HelloResponse;
 import com.example.grpcserver.hello.HelloServiceGrpc;
+import io.grpc.Channel;
+import io.grpc.ClientInterceptor;
+import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -29,18 +32,20 @@ public class GrpcClientApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws SSLException {
 
         int gatewayPort = 8090;
-        ManagedChannel channel = createSecuredChannel(gatewayPort);
-
+        ManagedChannel originChannel = createSecuredChannel(gatewayPort);
+        ClientInterceptor interceptor = new HeaderClientInterceptor();
+        // @1 构建Channel时注入客户端拦截器
+        Channel channel = ClientInterceptors.intercept(originChannel, interceptor);
         final HelloResponse response = HelloServiceGrpc.newBlockingStub(channel)
                 .hello(HelloRequest.newBuilder().setFirstName("Saul")
                         .setLastName("Hudson").build());
 
         System.out.println(response.toString());
-
         final HelloResponse response2 = HelloServiceGrpc.newBlockingStub(channel)
                 .hello(HelloRequest.newBuilder().setFirstName("aa")
                         .setLastName("Hudaason").build());
         System.out.println(response2.toString());
+        originChannel.shutdown();
     }
 
     private ManagedChannel createSecuredChannel(int port) throws SSLException {
@@ -59,7 +64,7 @@ public class GrpcClientApplication implements ApplicationRunner {
                     }
                 }};
 
-        return NettyChannelBuilder.forAddress("localhost", port)
+        return NettyChannelBuilder.forTarget("localhost:"+port+"/test/")
                 .useTransportSecurity().sslContext(
                         GrpcSslContexts.forClient().trustManager(trustAllCerts[0])
                                 .build()).negotiationType(TLS).build();

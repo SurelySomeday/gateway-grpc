@@ -144,7 +144,7 @@ public class JSONToGRPCFilterFactory extends AbstractGatewayFilterFactory<Object
                     }};
 
             try {
-                return NettyChannelBuilder.forAddress(host, port)
+                return NettyChannelBuilder.forTarget(host+":"+port+"/hello1")
                         .useTransportSecurity().sslContext(
                                 GrpcSslContexts.forClient().trustManager(trustAllCerts[0])
                                         .build()).negotiationType(TLS).build();
