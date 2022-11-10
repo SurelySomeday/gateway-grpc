@@ -1,5 +1,6 @@
 package top.yxlgx;
 
+import io.grpc.netty.shaded.io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import top.yxlgx.grpcserver.hello.HelloRequest;
 import top.yxlgx.grpcserver.hello.HelloResponse;
 import top.yxlgx.grpcserver.hello.HelloServiceGrpc;
@@ -30,8 +31,8 @@ public class GrpcClientApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws SSLException {
-
         int gatewayPort = 8090;
+        /*int gatewayPort = 8090;
         ManagedChannel originChannel = createSecuredChannel(gatewayPort);
         ClientInterceptor interceptor = new HeaderClientInterceptor();
         // @1 构建Channel时注入客户端拦截器
@@ -45,6 +46,17 @@ public class GrpcClientApplication implements ApplicationRunner {
                 .hello(HelloRequest.newBuilder().setFirstName("aa")
                         .setLastName("Hudaason").build());
         System.out.println(response2.toString());
+        originChannel.shutdown();*/
+
+        ManagedChannel originChannel = reateInSecuredChannel(gatewayPort);
+        ClientInterceptor interceptor = new HeaderClientInterceptor();
+        // @1 构建Channel时注入客户端拦截器
+        Channel channel = ClientInterceptors.intercept(originChannel, interceptor);
+        final HelloResponse response = HelloServiceGrpc.newBlockingStub(channel)
+                .hello(HelloRequest.newBuilder().setFirstName("Saul")
+                        .setLastName("Hudson").build());
+        System.out.println(response.toString());
+
         originChannel.shutdown();
     }
 
@@ -64,9 +76,17 @@ public class GrpcClientApplication implements ApplicationRunner {
                     }
                 }};
 
-        return NettyChannelBuilder.forTarget("localhost:"+port+"/test/")
+        return NettyChannelBuilder.forAddress("127.0.0.1",port)
                 .useTransportSecurity().sslContext(
                         GrpcSslContexts.forClient().trustManager(trustAllCerts[0])
                                 .build()).negotiationType(TLS).build();
+    }
+
+    private ManagedChannel reateInSecuredChannel(int port) throws SSLException {
+
+        return NettyChannelBuilder.forAddress("127.0.0.1",port)
+                .usePlaintext().sslContext(
+                        GrpcSslContexts.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE)
+                                .build()).build();
     }
 }

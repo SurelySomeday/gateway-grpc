@@ -4,7 +4,7 @@ grpc:
     security:
       private-key: classpath:cert.key
       certificate-chain: classpath:certificate.pem
-      enabled: true
+      enabled: false
     port: 6565
 spring:
   application:

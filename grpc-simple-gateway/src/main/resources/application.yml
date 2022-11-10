@@ -7,7 +7,7 @@ server:
     key-store: classpath:keystore.p12
     key-store-password: password
     key-password: password
-    enabled: true
+    enabled: false
 spring:
   cloud:
     gateway:
@@ -17,7 +17,9 @@ spring:
 
       routes:
         - id: grpc-path
-          uri: lb:https://grpc-server
+          uri: lb:http://grpc-server
+          metadata:
+            h2c: true
           predicates:
             - Header=custom_client_header_key, grpc-path
           filters:
