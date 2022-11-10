@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: grcp-gateway
+    name: grpc-gateway
   cloud:
     nacos:
       server-addr: yxlgx.top:8848
