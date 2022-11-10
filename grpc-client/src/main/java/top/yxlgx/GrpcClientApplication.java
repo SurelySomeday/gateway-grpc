@@ -1,8 +1,8 @@
-package com.example;
+package top.yxlgx;
 
-import com.example.grpcserver.hello.HelloRequest;
-import com.example.grpcserver.hello.HelloResponse;
-import com.example.grpcserver.hello.HelloServiceGrpc;
+import top.yxlgx.grpcserver.hello.HelloRequest;
+import top.yxlgx.grpcserver.hello.HelloResponse;
+import top.yxlgx.grpcserver.hello.HelloServiceGrpc;
 import io.grpc.Channel;
 import io.grpc.ClientInterceptor;
 import io.grpc.ClientInterceptors;

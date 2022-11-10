@@ -1,4 +1,4 @@
-package com.example.grpcserver.hello;
+package top.yxlgx.grpcserver.hello;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

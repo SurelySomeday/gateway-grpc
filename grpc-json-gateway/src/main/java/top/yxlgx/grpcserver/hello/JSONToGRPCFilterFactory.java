@@ -1,4 +1,4 @@
-package com.example.grpcserver.hello;
+package top.yxlgx.grpcserver.hello;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

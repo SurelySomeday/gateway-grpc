@@ -1,4 +1,4 @@
-package com.example;
+package top.yxlgx;
 
 import com.alibaba.cloud.nacos.registry.NacosRegistration;
 import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @Component
 public class GrpcNacosRegistration implements CommandLineRunner {
 
-    @Value("${grpc.port:6565}")
+    @Value("${grpc.server.port:6565}")
     Integer port;
     @Resource
     NacosRegistration nacosRegistration;

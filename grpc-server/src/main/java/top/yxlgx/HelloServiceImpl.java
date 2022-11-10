@@ -1,12 +1,12 @@
-package com.example;
+package top.yxlgx;
 
-import com.example.grpcserver.hello.HelloRequest;
-import com.example.grpcserver.hello.HelloResponse;
-import com.example.grpcserver.hello.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
-import org.lognet.springboot.grpc.GRpcService;
+import net.devh.boot.grpc.server.service.GrpcService;
+import top.yxlgx.grpcserver.hello.HelloRequest;
+import top.yxlgx.grpcserver.hello.HelloResponse;
+import top.yxlgx.grpcserver.hello.HelloServiceGrpc;
 
-@GRpcService
+@GrpcService
 public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
     @Override
