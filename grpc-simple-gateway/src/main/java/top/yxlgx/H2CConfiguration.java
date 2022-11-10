@@ -12,9 +12,9 @@ import reactor.netty.http.HttpProtocol;
  * @Author yanxin.
  * @Date 2022/11/10 15:29.
  * Created by IntelliJ IDEA
- * File Description:
+ * File Description: 无法生效，且启动报错
  */
-@Configuration
+//@Configuration
 public class H2CConfiguration {
 
     // https://projectreactor.io/docs/netty/release/reference/index.html#_http2

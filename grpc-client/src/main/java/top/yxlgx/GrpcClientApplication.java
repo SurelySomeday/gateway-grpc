@@ -48,7 +48,7 @@ public class GrpcClientApplication implements ApplicationRunner {
         System.out.println(response2.toString());
         originChannel.shutdown();*/
 
-        ManagedChannel originChannel = reateInSecuredChannel(gatewayPort);
+        ManagedChannel originChannel =  createSecuredChannel(gatewayPort);
         ClientInterceptor interceptor = new HeaderClientInterceptor();
         // @1 构建Channel时注入客户端拦截器
         Channel channel = ClientInterceptors.intercept(originChannel, interceptor);
@@ -82,7 +82,7 @@ public class GrpcClientApplication implements ApplicationRunner {
                                 .build()).negotiationType(TLS).build();
     }
 
-    private ManagedChannel reateInSecuredChannel(int port) throws SSLException {
+    private ManagedChannel createInSecuredChannel(int port) throws SSLException {
 
         return NettyChannelBuilder.forAddress("127.0.0.1",port)
                 .usePlaintext().sslContext(
